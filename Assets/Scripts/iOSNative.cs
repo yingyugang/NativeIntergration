@@ -12,10 +12,10 @@ namespace BlueNoah.NativeIntergrate
         private static extern void _CallNative(int num, CallBack callBack);
 
         [DllImport("__Internal")]
-        private static extern void _CallNative(string txt, CallBack callBack);
+        private static extern void _CallNative1(string txt, CallBack callBack);
 
         [DllImport("__Internal")]
-        private static extern void _CallNative(TransmissionData transmissionData, CallBack callBack);
+        private static extern void _CallNative2(TransmissionData transmissionData, CallBack callBack);
 
         delegate void CallBack(IntPtr param);
 

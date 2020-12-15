@@ -19,10 +19,9 @@ namespace BlueNoah.NativeIntergrate
         {
 #if UNITY_EDITOR
             Debug.LogError("This RuntimePlatform is not supported. Only iOS and Android devices are supported.");
-            Debug.LogError("请在Ios或者Android实机上面运行");
+            Debug.LogError("原生代码不支持Editor，请在Ios或者Android实机上面运行");
             Debug.LogError("エディターでサポートされていなかったので、端末で実行してください、");
-            return;
-#endif
+#else
 #if UNITY_IOS
             nativeInterface = new iOSNative();
 #elif UNITY_ANDROID
@@ -47,6 +46,8 @@ namespace BlueNoah.NativeIntergrate
             {
                 nativeInterface.CallNative2();
             });
+
+#endif
         }
     }
 }

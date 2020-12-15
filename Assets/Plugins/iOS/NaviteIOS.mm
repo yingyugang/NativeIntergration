@@ -3,20 +3,33 @@ using namespace std;
 
 extern "C" {
 
-    typedef void(*CallBack)(const char* p);
+    struct TransmissionData{
+        int a;
+        char* b;
+    };
+
+    typedef void(*CallBack)(int num);
     CallBack cb;
 
-    void _CallNative(const char* txt,CallBack1 cb1){
-        ::cb = cb1;
-        ::cb(txt);
+    typedef void(*CallBack1)(const char* p);
+    CallBack1 cb1;
+
+    typedef void(*CallBack2)(TransmissionData transmissionData);
+    CallBack2 cb2;
+
+    void _CallNative(int num,CallBack cb){
+        //::是C++的全局变量用的符号，相当于C#的this。
+        ::cb = cb;
+        ::cb(num);
     }
 
-    typedef void(*CallBack1)(int num);
-    CallBack cb1;
-
-    void _CallNative(int num,CallBack1 cb1){
-        //::是C++的全局变量用的符号，相当于C#的this。
+    void _CallNative1(const char* txt,CallBack1 cb){
         ::cb1 = cb;
-        ::cb1(num);
+        ::cb1(txt);
+    }
+
+    void _CallNative2(TransmissionData transmissionData,CallBack2 cb){
+        ::cb2 = cb;
+        ::cb2(transmissionData);
     }
 }
