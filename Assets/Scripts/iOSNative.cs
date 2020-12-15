@@ -22,22 +22,35 @@ namespace BlueNoah.NativeIntergrate
         [MonoPInvokeCallback(typeof(CallBack))]
         static void CallBackFunc(IntPtr param)
         {
-            string path = Marshal.PtrToStringAuto(param);
-            onComplete?.Invoke(path);
+            try
+            {
+                var num = Marshal.ReadInt32(param);
+                onComplete?.Invoke(num.ToString());
+            }
+            catch (Exception ex)
+            {
+                
+            }
         }
 
         [MonoPInvokeCallback(typeof(CallBack))]
         static void CallBackFunc1(IntPtr param)
         {
-            var num = Marshal.ReadInt32(param);
-            onComplete?.Invoke(num.ToString());
+            var data = Marshal.PtrToStringAuto(param);
+            onComplete?.Invoke(data);
         }
 
         [MonoPInvokeCallback(typeof(CallBack))]
         static void CallBackFunc2(IntPtr param)
         {
-            var transmissionData = Marshal.PtrToStructure<TransmissionData>(param);
-            onComplete?.Invoke(transmissionData.GetStringData());
+            try {
+                var transmissionData = Marshal.PtrToStructure<TransmissionData>(param);
+                onComplete?.Invoke(transmissionData.GetStringData());
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void SetComplete(Action<string> onComplete)
@@ -52,13 +65,13 @@ namespace BlueNoah.NativeIntergrate
 
         public void CallNative1()
         {
-            _CallNative("abcdefg", CallBackFunc1);
+            _CallNative1("abcdefg", CallBackFunc1);
         }
 
         public void CallNative2()
         {
             var transmissionData = new TransmissionData() { a = 1, b = "aaabbbccc" };
-            _CallNative(transmissionData, CallBackFunc2);
+            _CallNative2(transmissionData, CallBackFunc2);
         }
     }
 }
